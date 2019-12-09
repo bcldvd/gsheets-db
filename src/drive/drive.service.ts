@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {google} from 'googleapis'
+import {google} from 'googleapis';
 import { ConfigService } from 'src/config/config.service';
 
 @Injectable()

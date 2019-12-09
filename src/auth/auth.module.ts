@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 
 import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
-import { ConfigModule } from 'src/config/config.module';
+import { ConfigModule } from '../config/config.module';
 
 @Module({
   controllers: [AuthController],

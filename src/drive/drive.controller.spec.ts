@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DriveController } from './drive.controller';
 import { ConfigModule } from '../config/config.module';
 import { DriveService } from './drive.service';
+import { AppDataService } from './app-data.service';
+import { SheetsService } from './sheets.service';
 
 describe('Drive Controller', () => {
   let controller: DriveController;
@@ -9,7 +11,7 @@ describe('Drive Controller', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [DriveController],
-      providers: [DriveService],
+      providers: [DriveService, AppDataService, SheetsService],
       imports: [ConfigModule],
     }).compile();
 

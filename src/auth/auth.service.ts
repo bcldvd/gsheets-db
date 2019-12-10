@@ -9,9 +9,7 @@ export enum Provider {
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private config: ConfigService,
-  ) {}
+  constructor(private config: ConfigService) {}
 
   async validateOAuthLogin(
     thirdPartyId: string,

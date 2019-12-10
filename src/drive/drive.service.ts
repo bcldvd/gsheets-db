@@ -9,10 +9,18 @@ export class DriveService {
   constructor(private config: ConfigService) {}
 
   async listAppData(accessToken: string) {
+    return await this.list(accessToken, 'appDataFolder');
+  }
+
+  async list(
+    accessToken: string,
+    spaces: string = 'drive',
+    pageSize: number = 3,
+  ) {
     const drive = this.getDriveAPI(accessToken);
     const params = {
-      spaces: 'appDataFolder',
-      pageSize: 3,
+      spaces,
+      pageSize,
     };
     const res = await drive.files.list(params);
     return res.data;
@@ -20,19 +28,21 @@ export class DriveService {
 
   async createAppDataConfigFile(accessToken: string, content: ConfigFile) {
     const options = {
-        accessToken,
-        fileName: this.configFile,
-        parents: ['appDataFolder'],
-        content,
+      accessToken,
+      fileName: this.configFile,
+      parents: ['appDataFolder'],
+      content,
     };
     return await this.createFile(options);
   }
 
   async getAppDataConfigFile(accessToken: string): Promise<ConfigFile> {
     const appDataFiles = await this.listAppData(accessToken);
-    const configFileInfo = appDataFiles.files.find(file => file.name === this.configFile);
+    const configFileInfo = appDataFiles.files.find(
+      file => file.name === this.configFile,
+    );
     const fileId = configFileInfo.id; // TODO: handle not found
-    return await this.getFile(accessToken, fileId) as Promise<ConfigFile>;
+    return (await this.getFile(accessToken, fileId)) as Promise<ConfigFile>;
   }
 
   async createFile(options: CreateFileOpts) {
@@ -55,11 +65,30 @@ export class DriveService {
   async getFile(accessToken: string, fileId: string) {
     const drive = this.getDriveAPI(accessToken);
     const params = {
-        fileId,
-        alt: 'media',
+      fileId,
+      alt: 'media',
     };
     const res = await drive.files.get(params);
     return res.data;
+  }
+
+  async createSheet(accessToken: string, title: string) {
+    const sheets = this.getSheetsAPI(accessToken);
+    const requestBody = {
+      properties: {
+        title,
+      },
+    };
+    return await sheets.spreadsheets.create({
+      requestBody,
+    });
+  }
+
+  private getSheetsAPI(accessToken: string) {
+    return google.sheets({
+      version: 'v4',
+      auth: this.getConfigFromToken(accessToken),
+    });
   }
 
   private getDriveAPI(accessToken: string) {
@@ -84,12 +113,12 @@ export class DriveService {
 }
 
 export interface CreateFileOpts {
-    accessToken: string;
-    fileName: string;
-    parents: string[];
-    content: string | any;
+  accessToken: string;
+  fileName: string;
+  parents: string[];
+  content: string | any;
 }
 
 export interface ConfigFile {
-    pathOfDb: string;
+  pathOfDb: string;
 }

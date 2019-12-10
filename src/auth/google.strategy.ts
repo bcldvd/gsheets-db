@@ -10,16 +10,17 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private readonly authService: AuthService,
     private config: ConfigService,
-    ) {
+  ) {
     super({
       clientID: config.get('CLIENT_ID'),
       clientSecret: config.get('CLIENT_SECRET'),
       callbackURL: `${config.get('URL_SELF')}/auth/google/callback`,
       passReqToCallback: true,
       scope: [
-          'profile',
+        'profile',
         'https://www.googleapis.com/auth/drive.appdata',
-        ],
+        'https://www.googleapis.com/auth/drive.file',
+      ],
     });
   }
 
@@ -28,13 +29,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     accessToken: string,
     refreshToken: string,
     profile: GoogleProfile,
-    done: Function,
+    done: (err: any, user: any) => void,
   ) {
     try {
       const jwt: string = await this.authService.validateOAuthLogin(
         profile.id,
         Provider.GOOGLE,
-        accessToken
+        accessToken,
       );
 
       const user = {
@@ -49,17 +50,21 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 }
 
 export interface GoogleProfile {
-    id: string;
-    displayName: string;
-    name: { familyName: string, givenName: string };
-    photos: {value: string}[];
-    provider: Provider;
-    _json: {
-        sub: string;
-        name: string;
-        given_name: string;
-        family_name: string;
-        picture: string;
-        locale: string;
-    };
+  id: string;
+  displayName: string;
+  name: { familyName: string; givenName: string };
+  photos: PhotosGoogleProfile[];
+  provider: Provider;
+  _json: {
+    sub: string;
+    name: string;
+    given_name: string;
+    family_name: string;
+    picture: string;
+    locale: string;
+  };
+}
+
+export interface PhotosGoogleProfile {
+  value: string;
 }

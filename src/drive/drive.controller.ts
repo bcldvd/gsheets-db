@@ -4,10 +4,7 @@ import { DriveService } from './drive.service';
 
 @Controller('drive')
 export class DriveController {
-
-    constructor(
-        private driveService: DriveService,
-    ) {}
+  constructor(private driveService: DriveService) {}
 
   @Get('appdata')
   @UseGuards(AuthGuard('jwt'))

@@ -8,11 +8,7 @@ import { ConfigModule } from '../config/config.module';
 
 @Module({
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    GoogleStrategy,
-    JwtStrategy,
-  ],
+  providers: [AuthService, GoogleStrategy, JwtStrategy],
   imports: [ConfigModule],
 })
 export class AuthModule {}

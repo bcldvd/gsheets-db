@@ -5,4 +5,3 @@ export class ConfigService {
     return process.env[key];
   }
 }
-

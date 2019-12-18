@@ -25,10 +25,4 @@ export class AuthController {
       res.redirect(`${this.config.get('URL_CALLBACK')}/login?failure=true`);
     }
   }
-
-  @Get('protected')
-  @UseGuards(AuthGuard('jwt'))
-  protectedResource(@Req() req) {
-    return 'JWT is working!';
-  }
 }

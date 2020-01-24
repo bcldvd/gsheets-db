@@ -11,6 +11,7 @@
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
     "start:prod": "node dist/main.js",
+    "dev": "npm run start:debug",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",

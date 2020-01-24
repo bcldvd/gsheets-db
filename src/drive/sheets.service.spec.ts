@@ -20,7 +20,7 @@ describe('SheetsService', () => {
   });
 
   describe('matrixToRowData', () => {
-    it('should be convert matrix to row data', () => {
+    it('should convert matrix to row data', () => {
       const mockData = [['day', 'workout', 'reps'], ['02/11/1991', 'C3', '12']];
       const expected = [
         {

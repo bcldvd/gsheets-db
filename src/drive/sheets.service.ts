@@ -29,6 +29,322 @@ export class SheetsService {
     return this.rawSheetToMatrix(rawSheet.data);
   }
 
+  async insertRow(accessToken: string, spreadsheetId: string, row: any) {
+    const sheets = this.getSheetsAPI(accessToken);
+    /* const appendOptions = {
+      range: 'A15:A16',
+      spreadsheetId,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        majorDimension: 'ROWS',
+        values: [['06/01/2016', '😅', '', 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6]],
+      },
+    };
+    return await sheets.spreadsheets.values.append(appendOptions); */
+
+    const range = 'A1:Z1000';
+    return await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range,
+    });
+
+    // ->
+    /* {
+      "range": "Sheet1!A1:W1000",
+      "majorDimension": "ROWS",
+      "values": [
+        [
+          "Date",
+          "Humeur",
+          "BPM",
+          "Répétitions",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "Repetitions"
+        ],
+        [
+          "Niveau 2",
+          "",
+          "",
+          "B1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "A3"
+        ],
+        [
+          "06/01/2016",
+          "💪🏼",
+          "",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5"
+        ],
+        [
+          "08/01/2016",
+          "💪🏼",
+          "",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6"
+        ],
+        [
+          "18/01/2016",
+          "💪🏼",
+          "",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5"
+        ],
+        [
+          "20/01/2016",
+          "💪🏼",
+          "",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6"
+        ],
+        [
+          "30/12/2019",
+          "💪🏼",
+          "",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7",
+          "7"
+        ],
+        [
+          "31/12/2019",
+          "💪🏼",
+          "",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8",
+          "8"
+        ],
+        [
+          "10/01/2020",
+          "😅",
+          "",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9",
+          "9"
+        ],
+        [
+          "22/01/2020",
+          "🥵",
+          "",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        [
+          "Niveau 3",
+          "",
+          "",
+          "B2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "A3"
+        ],
+        [
+          "23/01/2020",
+          "💪🏼",
+          "",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5"
+        ],
+        [],
+        [],
+        [
+          "06/01/2016",
+          "😅",
+          "",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "5",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6",
+          "6"
+        ]
+      ]
+    } */
+  }
+
+  /* async formatRow(accessToken: string, spreadsheetId: string, row: any) {
+    const sheets = this.getSheetsAPI(accessToken);
+    const appendOptions = {
+      range: 'A15:A16',
+      spreadsheetId,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        majorDimension: 'ROWS',
+        values: [['06/01/2016', '😅', '', 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6]],
+      },
+    };
+    return await sheets.spreadsheets.batchUpdate(appendOptions);
+  }
+
+  {
+    "requests": [
+      {
+        "mergeCells": {
+          "range": {
+            "sheetId": sheetId,
+            "startRowIndex": 0,
+            "endRowIndex": 2,
+            "startColumnIndex": 0,
+            "endColumnIndex": 2
+          },
+          "mergeType": "MERGE_ALL"
+        }
+      },
+      {
+        "mergeCells": {
+          "range": {
+            "sheetId": sheetId,
+            "startRowIndex": 2,
+            "endRowIndex": 6,
+            "startColumnIndex": 0,
+            "endColumnIndex": 2
+          },
+          "mergeType": "MERGE_COLUMNS"
+        }
+      },
+    ]
+  } 
+  
+  {
+  "requests": [
+    {
+      "updateBorders": {
+        "range": {
+          "sheetId": sheetId,
+          "startRowIndex": 0,
+          "endRowIndex": 10,
+          "startColumnIndex": 0,
+          "endColumnIndex": 6
+        },
+        "top": {
+          "style": "DASHED",
+          "width": 1,
+          "color": {
+            "blue": 1.0
+          },
+        },
+        "bottom": {
+          "style": "DASHED",
+          "width": 1,
+          "color": {
+            "blue": 1.0
+          },
+        },
+        "innerHorizontal": {
+          "style": "DASHED",
+          "width": 1,
+          "color": {
+            "blue": 1.0
+          },
+        },
+      }
+    }
+  ]
+}*/
+
   private rawSheetToMatrix(rawSheet: sheets_v4.Schema$Spreadsheet) {
     if (!rawSheet.sheets[0].hasOwnProperty('data')) {
       return [[]];

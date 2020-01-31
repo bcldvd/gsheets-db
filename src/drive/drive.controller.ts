@@ -8,6 +8,8 @@ import {
   Delete,
   Param,
   Query,
+  Put,
+  HttpException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { DriveService } from './drive.service';
@@ -71,6 +73,18 @@ export class DriveController {
       ]);
     } catch (err) {
       throw new NotFoundException();
+    }
+  }
+
+  @Put('db/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async insertRow(@Req() req, @Param('id') id, @Query('range') range) {
+    try {
+      return await this.sheetsService.insertRow(req.user.accessToken, id, [
+        range,
+      ]);
+    } catch (err) {
+      return err;
     }
   }
 }

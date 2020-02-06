@@ -4,7 +4,7 @@
     "tslint:recommended"
   ],
   "jsRules": {
-    "no-unused-expression": true,
+    "no-unused-expression": true
   },
   "rules": {
     "no-string-literal": false,

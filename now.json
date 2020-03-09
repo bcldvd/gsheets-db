@@ -1,6 +1,5 @@
 {
     "version": 2,
-    "name": "gsheets-db",
     "builds": [
         {
             "src": "dist/main.js",
@@ -12,5 +11,12 @@
             "src": "/(.*)",
             "dest": "dist/main.js"
         }
-    ]
+    ],
+    "env": {
+        "CLIENT_ID": "@gsheets-client-id",
+        "CLIENT_SECRET": "@gsheets-client-secret",
+        "JWT_SECRET_KEY": "@gsheets-jwt-secret-key",
+        "URL_SELF": "@gsheets-url-self",
+        "URL_CALLBACK": "@gsheets-url-callback"
+    }
 }
